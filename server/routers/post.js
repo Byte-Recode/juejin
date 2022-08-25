@@ -1,0 +1,9 @@
+const express = require("express")
+let router = express.Router()
+
+router.post("/getarticle", require("../controller/post").getarticle)
+router.post("/getarticletag", require("../controller/post").getarticletag)
+
+
+
+module.exports = router
