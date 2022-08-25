@@ -1,7 +1,7 @@
 <template>
 	<div id="list-container">
 		<router-link to="#">
-			<div class="entry" @click="test">
+			<div class="entry">
 				<!-- 头部区域 -->
 				<div class="meta-container">
 					<a class="user-message" @click.stop="intoAuthor">
@@ -12,7 +12,7 @@
 					<div class="time">
 						{{ setDate(date) }}
 					</div>
-					<div class="tag-list">
+					<div class="tag-list" @click.stop="intoArticle">
 						<a calss="tag" v-for="(item, index) in keyword" :key="index"
 							:class="{ 'isshowbot': index == (keyword.length - 1) }">{{ item }}</a>
 					</div>
@@ -20,7 +20,7 @@
 
 				<!-- 主体区域 -->
 				<div class="content">
-					<div class="content-main">
+					<div class="content-main" @click="intoArticle">
 						<div class="content-title">
 							<a href="">{{ title }}</a>
 						</div>
@@ -42,7 +42,7 @@
 							</li>
 						</ul>
 					</div>
-					<img class="content-img" :src="coverimg" v-if="isShoeCover" />
+					<img class="content-img" :src="coverimg" v-if="isShowCover" />
 				</div>
 
 				<!-- 关闭按钮 -->
@@ -102,12 +102,10 @@ export default {
 		return {
 			isCloseMenuON: false,
 			isShieldMenuON: false,
-			isShoeCover: false,
+			isShowCover: false,
 			postlabelarr: [],
 			keyword: [],
 			closeId: 'close' + (Math.random() * 100000).toFixed(0),//想给元素赋一个独一无二的id，但是后续没有用上
-
-
 		}
 	},
 	props: {
@@ -183,10 +181,10 @@ export default {
 		},
 		//是否展示封面
 		isShowPhoto() {
-			if (this.coverimg == 'null') {
-				this.isShoeCover = false
+			if (this.coverimg == 'null' || this.coverimg == '') {
+				this.isShowCover = false
 			} else {
-				this.isShoeCover = true
+				this.isShowCover = true
 			}
 		},
 		//关闭按钮相关方法
@@ -218,16 +216,28 @@ export default {
 		},
 		//点击文章相关方法
 		intoAuthor() {
-			console.log("进入用户主页");
+			console.log(`进入用户${this.authorname}主页`);
+			this.$message({
+				message: `进入用户${this.authorname}主页,暂未开放此功能`,
+				duration: 500
+			});
 		},
 		intoArticle() {
 			console.log("打开文章");
 		},
 		likeArticle() {
 			console.log("点赞");
+			this.$message({
+				message: `给postid=${this.postid}点赞,暂未开放此功能`,
+				duration: 500
+			});
 		},
 		commentArticle() {
 			console.log("评论文章");
+			this.$message({
+				message: `评论postid=${this.postid},暂未开放此功能`,
+				duration: 500
+			});
 		}
 
 	},

@@ -20,7 +20,7 @@ class PostController {
         }
         // console.log(order)
         // sql查询语句
-        let querySql = `SELECT article.id, article.userid, article.title, article.content, article.keywords, article.followcount, article.replycount, article.viewcount, article.posttime, article.photo, users.username, users.profile FROM juejin.article INNER JOIN juejin.users ON article.userid=users.id ORDER BY ${order} DESC LIMIT ?,?;`
+        let querySql = `SELECT article.id, article.userid, article.title, article.abstract, article.content, article.keywords, article.followcount, article.replycount, article.viewcount, article.posttime, article.photo, users.username, users.profile FROM juejin.article INNER JOIN juejin.users ON article.userid=users.id ORDER BY ${order} DESC LIMIT ?,?;`
         // 查询参数
         let params = [
             // order,
@@ -78,7 +78,7 @@ class PostController {
         }
         // 查询标签名
         // sql查询语句
-        let querySql = `SELECT article.id, article.userid, article.title, article.content, article.keywords, article.followcount, article.replycount, article.viewcount, article.posttime, article.photo, users.username, users.profile FROM juejin.article INNER JOIN juejin.users ON article.userid=users.id WHERE article.keywords REGEXP '${sqlreg}' ORDER BY ${order} DESC LIMIT ?,?;`
+        let querySql = `SELECT article.id, article.userid, article.title, article.abstract, article.content, article.keywords, article.followcount, article.replycount, article.viewcount, article.posttime, article.photo, users.username, users.profile FROM juejin.article INNER JOIN juejin.users ON article.userid=users.id WHERE article.keywords REGEXP '${sqlreg}' ORDER BY ${order} DESC LIMIT ?,?;`
         // 查询参数
         let params = [
             // order,
@@ -114,7 +114,42 @@ class PostController {
 
     }
 
-
+    async publish(req, res, next) {
+        let querySql = 'INSERT INTO juejin.article(userid, title, keywords, content, abstract, photo, posttime) VALUES (?,?,?,?,?,?,?)'
+        let params = [
+            req.body.userid,
+            req.body.title,
+            req.body.keywords,
+            req.body.content,
+            req.body.abstract,
+            req.body.photourl,
+            new Date()
+        ]
+        console.log(req.body);
+        console.log(params);
+        try {
+            let result = await database.exec(querySql, params)
+            console.log(result)
+            if (result && result.affectedRows >= 1) {
+                res.json({
+                    postid: result.insertId,
+                    code: 201,
+                    msg: "发布文章成功"
+                })
+            } else {
+                res.json({
+                    code: 202,
+                    msg: "发布文章失败"
+                })
+            }
+        } catch (error) {
+            res.json({
+                code: 500,
+                msg: "服务器异常",
+                error
+            })
+        }
+    }
 
 
 }

@@ -11,55 +11,54 @@ import event from '../pages/event/index'
 import homeTags from "../pages/home/homeTags";
 import courseTags from "../pages/course/courseTags";
 import creator from "../pages/creator/index";
+import editor from "../pages/creator/editor.vue"
 
-const routes = [
-	{
-		path:'/',
-		component:layout,
-		children:[
-			{
-				path:'/',
-				component:home,
-				children:[
-					{
-						path:'/',
-						component:homeTags
-					}
-				]
+const routes = [{
+		path: '/',
+		component: layout,
+		children: [{
+				path: '/',
+				component: home,
+				children: [{
+					path: '/',
+					component: homeTags
+				}]
 			},
 			{
-				path:'pins',
-				component:pins
+				path: 'pins',
+				component: pins
 			},
 			{
-				path:'course',
-				component:course,
-				children:[
-					{
-						path:'/course',
-						component:courseTags
-					}
-				]
+				path: 'course',
+				component: course,
+				children: [{
+					path: '/course',
+					component: courseTags
+				}]
 			},
 			{
-				path:'live',
-				component:live
+				path: 'live',
+				component: live
 			},
 			{
-				path:'event',
-				component:event
+				path: 'event',
+				component: event
 			},
 		]
 	},
 	{
-		path:'/creator',
-		component:creator
+		path: '/creator',
+		component: creator
+	},
+	{
+		path: '/editor',
+		component: editor
 	},
 ]
 
 const router = new VueRouter({
-	mode:'hash',
+	mode: 'hash',
 	routes,
-	linkActiveClass:'active'
+	linkActiveClass: 'active'
 })
 export default router

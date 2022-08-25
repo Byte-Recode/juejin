@@ -26,7 +26,8 @@
 						v-if="isskeleton">
 					</SkeletonVue>
 					<List v-for="(item, index) in articlearr" :key="index" :postid="item.id" :authorname="item.username"
-						:title="item.title" :coverimg="item.photo" :abstract="item.content" :date="item.posttime"
+						:title="item.title" :coverimg="item.photo"
+						:abstract="item.abstract == 'null' ? item.content : item.abstract" :date="item.posttime"
 						:keywords="item.keywords" :comment="item.replycount" :likecount="item.followcount"
 						:viewcount="item.viewcount">
 					</List>
@@ -172,6 +173,7 @@ export default {
 			}
 			// 获取文章列表
 			const res = await getarticleAPI(this.index, this.num, order)
+			// console.log(res)
 			if (res.code !== 201) {
 				this.isskeleton = false
 				this.istip = true

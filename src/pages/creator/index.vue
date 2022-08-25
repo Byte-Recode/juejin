@@ -3,9 +3,7 @@
     <div class="container">
       <!-- 掘金图标开始-->
       <div>
-        <a href="javascript:;"
-          ><img src="@/assets/xitujuejin.png" alt="加载失败"
-        /></a>
+        <a href="javascript:;"><img src="@/assets/xitujuejin.png" alt="加载失败" /></a>
       </div>
       <!-- 掘金图标开始结束-->
       <!-- 导航部分开始 -->
@@ -16,19 +14,12 @@
         <ul class="right">
           <!-- 会员开始 -->
           <li class="vip">
-            <a href="javascript:;"
-              ><img src="@/assets/vip.png" alt="加载失败" /><span>会员</span></a
-            >
+            <a href="javascript:;"><img src="@/assets/vip.png" alt="加载失败" /><span>会员</span></a>
           </li>
           <!-- 会员结束 -->
           <!-- 消息提醒开始 -->
           <li>
-            <el-button
-              size="mini"
-              type="info"
-              icon="el-icon-message-solid"
-              circle
-            ></el-button>
+            <el-button size="mini" type="info" icon="el-icon-message-solid" circle></el-button>
           </li>
           <!-- 消息提醒结束 -->
           <!-- 头像开始 -->
@@ -47,19 +38,14 @@
           <span>用户123456...</span>
         </div>
         <!-- 按钮 -->
-        <el-button type="primary" class="writebtn">写文章</el-button>
+        <el-button type="primary" class="writebtn" @click="editor">写文章</el-button>
 
         <!-- 选择导航栏 -->
         <div class="choose-outer">
           <div class="choose">
             <el-row class="tac">
               <el-col>
-                <el-menu
-                  default-active="2"
-                  class="el-menu-vertical-demo"
-                  @open="handleOpen"
-                  @close="handleClose"
-                >
+                <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
                   <el-menu-item index="1">
                     <i class="el-icon-s-home"></i>
                     <span slot="title">首页</span>
@@ -118,7 +104,7 @@
           </div>
           <div class="carousel">
             <el-carousel indicator-position="outside">
-              <el-carousel-item v-for="item in images" :key="index">
+              <el-carousel-item v-for="(item, index) in images" :key="index">
                 <img :src="item.imgSrc" alt="">
                 <!-- <h1>{{item.imgSrc}}</h1> -->
               </el-carousel-item>
@@ -132,7 +118,7 @@
             <h4>查看更多<i class="el-icon-arrow-right"></i></h4>
           </div>
           <div class="data">
-            <div v-for="item in dataList" :key="index" class="dataList">
+            <div v-for="(item, index) in dataList" :key="index" class="dataList">
               <div>
                 <h4>{{ item.title }}</h4>
                 <h1>{{ item.num }}</h1>
@@ -148,10 +134,8 @@
           </div>
           <div class="content3">
             <div class="put">
-              <img
-                src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/img/article-icon.cb8af82.png"
-                alt=""
-              />
+              <img src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/img/article-icon.cb8af82.png"
+                alt="" />
               <div>
                 <h3>首次成功发布文章<a>(>400字)</a><i class="el-icon-question"></i></h3>
                 <h4>奖励矿石<span>10000</span></h4>
@@ -159,10 +143,7 @@
               <el-button type="primary" round class="finish">去完成</el-button>
             </div>
             <div class="put">
-              <img
-                src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/img/pin-icon.c8ea3e1.png"
-                alt=""
-              />
+              <img src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/img/pin-icon.c8ea3e1.png" alt="" />
               <div>
                 <h3>首次成功发布沸点<i class="el-icon-question"></i></h3>
                 <h4>奖励矿石<span>5000</span></h4>
@@ -216,29 +197,50 @@ export default {
           num: 0,
         },
       ],
-      images:[
+      images: [
         {
-          imgSrc:"http://qt.guetwhj.top/JueJin/juejin01.jpg"
+          imgSrc: "http://qt.guetwhj.top/JueJin/juejin01.jpg"
         },
         {
-          imgSrc:"http://qt.guetwhj.top/JueJin/juejin02.jpg"
+          imgSrc: "http://qt.guetwhj.top/JueJin/juejin02.jpg"
         },
         {
-          imgSrc:"http://qt.guetwhj.top/JueJin/juejin03.png"
+          imgSrc: "http://qt.guetwhj.top/JueJin/juejin03.png"
         },
         {
-          imgSrc:"http://qt.guetwhj.top/JueJin/juejin04.png"
+          imgSrc: "http://qt.guetwhj.top/JueJin/juejin04.png"
         },
       ]
     };
   },
+  methods: {
+
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    editor() {
+      const url = this.$router.resolve({
+        path: '/editor',
+        query: {
+          username: '掘金用户XXX',
+          userid: 3
+        }
+      })
+      window.open(url.href, '_blank');
+    }
+  }
 };
 </script>
 
 <style lang="less" scoped>
 .outer {
   border-bottom: 1px solid #efeded;
+
   .container {
+    z-index: 10;
     position: fixed;
     display: flex;
     top: 0px;
@@ -248,10 +250,12 @@ export default {
     background-color: #ffffff;
     height: 60px;
     border-bottom: 1px solid #efeded;
+
     div {
       margin-left: 12px;
       margin-right: 22px;
       width: 100px;
+
       a {
         img {
           margin: 0 auto;
@@ -261,35 +265,43 @@ export default {
         }
       }
     }
+
     nav {
       display: flex;
       justify-content: space-between;
       flex: 9;
+
       .top-nav {
         display: flex;
         background: #ffffff;
+
         li {
           display: flex;
           justify-content: space-between;
           text-align: center;
           width: 48px;
           height: 54px;
+
           a {
             height: 54px;
             display: block;
             line-height: 53px;
             font-size: 13px;
           }
+
           &:hover a {
             color: #333333;
             border-bottom: 2px solid rgb(56, 113, 247);
           }
+
           .active {
             color: rgb(56, 113, 247);
           }
         }
+
         .others {
           display: flex;
+
           li {
             a {
               border: none;
@@ -297,36 +309,44 @@ export default {
           }
         }
       }
+
       .right {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        > ul {
+
+        >ul {
           display: flex;
           justify-content: space-between;
           align-items: center;
           flex: 5;
-          > .search {
+
+          >.search {
             width: 260px;
             margin-right: 0;
           }
-          > .scrollMenu {
+
+          >.scrollMenu {
             width: 130px;
             margin-right: 0;
           }
         }
-        > li {
+
+        >li {
           margin: 0 10px;
         }
+
         .vip {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          > a {
+
+          >a {
             display: flex;
             align-items: center;
             height: 24px;
             line-height: 24px;
+
             img {
               width: 24px;
               height: 24px;
@@ -334,6 +354,7 @@ export default {
             }
           }
         }
+
         .me {
           img {
             width: 36px;
@@ -358,9 +379,10 @@ export default {
 
 // 左侧
 .slebar {
+  overflow: hidden;
   position: fixed;
   width: 200px;
-  height: 480px;
+  height: calc(100% - 200px);
   top: 80px;
   margin-left: 80px;
   background-color: #ffffff;
@@ -406,10 +428,11 @@ export default {
 // 选择导航栏
 .choose-outer {
   width: 190px;
-  height: 310px;
+  height: 100%;
   position: relative;
   overflow: hidden;
 }
+
 .choose {
   position: absolute;
   left: 0;
@@ -444,18 +467,29 @@ export default {
 .one {
   height: 410px;
   background-color: #ffffff;
+
+  .carousel {
+    // z-index: 0;
+
+    img {
+      // z-index: -1
+    }
+  }
 }
+
 .title1 {
   display: flex;
   justify-content: space-between;
   height: 50px;
   border-bottom: 1px solid #ccc;
 }
+
 .title1 h3 {
   font-weight: 400;
   margin-left: 10px;
   line-height: 50px;
 }
+
 .title1 h4 {
   font-weight: 400;
   margin-right: 10px;
@@ -469,7 +503,7 @@ export default {
   height: 10px;
 }
 
-.carousel img{
+.carousel img {
   width: 100%;
   height: 100%;
 }
@@ -495,10 +529,12 @@ export default {
   margin-top: 10px;
   border-radius: 2px;
 }
+
 .dataList div {
   margin-top: 15px;
   margin-left: 15px;
 }
+
 .dataList div h4,
 h5 {
   font-weight: 400;
@@ -523,24 +559,29 @@ h5 {
   border: 1px solid #d3dce6;
   border-radius: 3px;
 }
+
 .content3 .put img {
   height: 40px;
   width: 40px;
 }
+
 .put {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
+
 .put .finish {
   height: 30px;
   width: 90px;
   line-height: 5px;
 }
+
 .put h4,
 h3 {
   font-weight: 400;
 }
+
 .put span {
   margin-left: 5px;
   color: #1d7dfa;
@@ -552,6 +593,7 @@ h3 {
   height: 160px;
   background-color: #ffffff;
 }
+
 .four .btn1 {
   margin-top: 30px;
   margin-left: 30px;
@@ -559,10 +601,17 @@ h3 {
   line-height: 6px;
   color: #1d7dfa;
 }
+
 .four .btn2 {
   margin-top: 30px;
   height: 30px;
   line-height: 6px;
   color: #333333;
+}
+
+
+//修改
+.el-menu-vertical-demo {
+  span {}
 }
 </style>
