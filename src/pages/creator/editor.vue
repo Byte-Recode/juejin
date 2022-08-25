@@ -46,7 +46,7 @@ export default {
                 photourl = this.photourl[0]
             }
             if (this.title.trim().length > 0) {
-                const res = await publisharticleAPI(this.userid, this.title, this.keywords, this.editor.txt.html(), this.editor.txt.text(), photourl)
+                const res = await publisharticleAPI(this.userid, this.title, this.keywords, this.editor.txt.html(), this.editor.txt.text().slice(0, 60), photourl)
                 // console.log(res);
                 if (res.code == 201) {
                     this.$router.push({

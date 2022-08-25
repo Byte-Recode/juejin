@@ -224,6 +224,12 @@ export default {
 		},
 		intoArticle() {
 			console.log("打开文章");
+			this.$router.push({
+				path: '/article',
+				query: {
+					postid: this.postid
+				}
+			})
 		},
 		likeArticle() {
 			console.log("点赞");

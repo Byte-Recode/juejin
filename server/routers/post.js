@@ -3,6 +3,7 @@ let router = express.Router()
 
 router.post("/getarticle", require("../controller/post").getarticle)
 router.post("/getarticletag", require("../controller/post").getarticletag)
+router.post("/getarticlebypostid", require("../controller/post").getarticlebypostid)
 router.post("/publish", require("../controller/post").publish)
 
 

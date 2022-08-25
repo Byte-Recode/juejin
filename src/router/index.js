@@ -12,6 +12,7 @@ import homeTags from "../pages/home/homeTags";
 import courseTags from "../pages/course/courseTags";
 import creator from "../pages/creator/index";
 import editor from "../pages/creator/editor.vue"
+import postarticle from "../pages/article/article.vue"
 
 const routes = [{
 		path: '/',
@@ -43,6 +44,10 @@ const routes = [{
 			{
 				path: 'event',
 				component: event
+			},
+			{
+				path: 'article',
+				component: postarticle
 			},
 		]
 	},

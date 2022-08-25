@@ -32,7 +32,7 @@
 						:viewcount="item.viewcount">
 					</List>
 					<h3 v-if="istip" :class="{ 'Skeleton': !sidebaron, 'Skeleton-react': sidebaron }"
-						style="margin:20px 0">没有更多了</h3>
+						style="text-align: center; margin:20px 0">没有更多了</h3>
 				</div>
 			</section>
 			<div style="width: 20px;height:1px;" v-if="!sidebaron"></div>
@@ -100,6 +100,7 @@ export default {
 			this.index = 0
 			this.articlearr = []
 			this.isskeleton = true
+			this.istip = false
 		},
 		// 切换关键词
 		toggleKeyword(e) {

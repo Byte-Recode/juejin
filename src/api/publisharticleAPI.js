@@ -9,6 +9,7 @@ export const publisharticleAPI = function (userid, title, keywords, content, abs
         abstract: abstract,
         photourl: photourl
     }).then(res => {
+        console.log(res.data);
         return res.data
     }).catch(err => console.log(err))
 }

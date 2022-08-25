@@ -143,7 +143,7 @@ export default {
         closeTopNavFold() {
             window.addEventListener("click", e => {
                 const iconEl = document.querySelector('.top-nav-fold-home');// 这里是要隐藏的弹窗 类名
-                if (iconEl.contains(e.target)) {// contains 方法 就是查看包含关系  
+                if (iconEl && iconEl.contains(e.target)) {// contains 方法 就是查看包含关系  
                     // contains 方法 本身含义：用于判断字符串中是否包含指定的字符或字符串
                     return //  返回值 :如果包含指定的字符或字符串返回 true，否则返回 false。
                 } else {

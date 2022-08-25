@@ -2,7 +2,7 @@
   <div class="outer">
     <div class="container">
       <!-- 掘金图标开始-->
-      <div>
+      <div @click="goHome">
         <a href="javascript:;"><img src="@/assets/xitujuejin.png" alt="加载失败" /></a>
       </div>
       <!-- 掘金图标开始结束-->
@@ -214,7 +214,11 @@ export default {
     };
   },
   methods: {
-
+    goHome() {
+      this.$router.push({
+        path: '/',
+      })
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },

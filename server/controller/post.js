@@ -109,9 +109,34 @@ class PostController {
                 error
             })
         }
+    }
 
-
-
+    async getarticlebypostid(req, res, next) {
+        let querySql = 'SELECT article.id, article.userid, article.title, article.abstract, article.content, article.keywords, article.followcount, article.replycount, article.viewcount, article.posttime, article.photo, users.username, users.profile FROM juejin.article INNER JOIN juejin.users ON article.userid=users.id WHERE article.id=?;'
+        let params = [
+            req.body.postid
+        ]
+        try {
+            let result = await database.exec(querySql, params)
+            if (result && result.length > 0) {
+                res.json({
+                    code: 201,
+                    msg: "获取文章成功",
+                    data: result
+                })
+            } else {
+                res.json({
+                    code: 409,
+                    msg: "获取文章失败",
+                })
+            }
+        } catch (error) {
+            res.json({
+                code: 500,
+                msg: "服务器错误",
+                error
+            })
+        }
     }
 
     async publish(req, res, next) {
