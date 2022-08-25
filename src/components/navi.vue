@@ -12,6 +12,32 @@
             <!-- 导航部分开始 -->
             <nav style="display:flex;justify-content: space-between;">
                 <!-- 左侧导航列表部分开始 -->
+                <!-- 1 -->
+                <ul class="top-nav-fold" v-if="windowWidth <= 1190">
+                    <li>
+                        <div class="top-nav-fold-home" @click="toggleTopNavFold">首页</div>
+                    </li>
+                    <li class="top-nav-fold-item" v-if="istopnavfold">
+                        <ol>
+                            <li>
+                                <router-link exact to="/">首页</router-link>
+                            </li>
+                            <li>
+                                <router-link to="/pins">沸点</router-link>
+                            </li>
+                            <li>
+                                <router-link to="/course">课程</router-link>
+                            </li>
+                            <li>
+                                <router-link to="/live">直播</router-link>
+                            </li>
+                            <li>
+                                <router-link to="/event">活动</router-link>
+                            </li>
+                        </ol>
+                    </li>
+                </ul>
+                <!-- 2 -->
                 <ul class="top-nav" v-if="windowWidth > 1190">
                     <li>
                         <router-link exact to="/">首页</router-link>
@@ -79,7 +105,8 @@ export default {
     data() {
         return {
             windowWidth: 1200,
-            issearchbig: false
+            issearchbig: false,
+            istopnavfold: false
         }
     },
     components: {
@@ -87,6 +114,9 @@ export default {
         scrollMenu,
     },
     methods: {
+        toggleTopNavFold() {
+            this.istopnavfold == true ? this.istopnavfold = false : this.istopnavfold = true
+        },
         debounce(fn, delay) {
             let timer;
             return function () {
@@ -109,7 +139,18 @@ export default {
             } else {
                 this.issearchbig = false
             }
-        }
+        },
+        closeTopNavFold() {
+            window.addEventListener("click", e => {
+                const iconEl = document.querySelector('.top-nav-fold-home');// 这里是要隐藏的弹窗 类名
+                if (iconEl.contains(e.target)) {// contains 方法 就是查看包含关系  
+                    // contains 方法 本身含义：用于判断字符串中是否包含指定的字符或字符串
+                    return //  返回值 :如果包含指定的字符或字符串返回 true，否则返回 false。
+                } else {
+                    this.istopnavfold = false; // TopNavFold 弹窗的开关
+                }
+            });
+        },
     },
     created() {
         this.toggleTopBar()
@@ -117,6 +158,7 @@ export default {
     },
     mounted() {
         addEventListener('resize', this.debounce(this.toggleTopBar, 100))
+        this.closeTopNavFold()
     },
     beforeDestroy() {
         window.removeEventListener('resize', this.debounce(this.toggleTopBar, 100));
@@ -125,6 +167,10 @@ export default {
 </script>
 
 <style lang='less' scoped>
+li {
+    list-style: none;
+}
+
 .outer {
     display: flex;
     align-items: center;
@@ -162,8 +208,65 @@ export default {
 
         nav {
             display: flex;
+            align-items: center;
             justify-content: space-between;
             flex: 9;
+
+            .top-nav-fold {
+                position: relative;
+                height: 32px;
+                font-size: 16px;
+                line-height: 32px;
+                color: #409EFF;
+
+                .top-nav-fold-home {
+                    position: relative;
+                }
+
+                .top-nav-fold-home::after {
+                    content: "";
+                    position: absolute;
+                    right: -15px;
+                    top: 14px;
+                    height: 0;
+                    aspect-ratio: 1;
+                    border: 5px solid #ffffff;
+                    border-top: 5px solid #515767;
+                }
+
+
+
+
+                .top-nav-fold-item {
+                    z-index: 10;
+                    width: 100px;
+                    position: absolute;
+                    top: calc(100% + 10px);
+                    left: 0;
+                    transform: translatex(-25%);
+                    background-color: #fff;
+                    border: 1px solid rgb(244, 244, 244);
+                    border-radius: 5px;
+                    box-shadow: 0px 0px 30px rgb(232, 232, 232);
+                    padding: 10px 20px;
+
+                    ol {
+                        text-align: center;
+                        line-height: 40px;
+                        padding: 0;
+                        margin: 0;
+
+                        a {
+                            padding: 11px 0;
+
+                            &:hover {
+                                border-bottom: 3px solid #409EFF;
+                            }
+                        }
+                    }
+
+                }
+            }
 
             .top-nav {
                 display: flex;
