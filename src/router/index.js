@@ -12,6 +12,7 @@ import homeTags from "../pages/home/homeTags";
 import courseTags from "../pages/course/courseTags";
 import creator from "../pages/creator/index";
 import editor from "../pages/creator/editor.vue"
+import chest from "../pages/creator/chest/index.vue"
 import postarticle from "../pages/article/article.vue"
 
 const routes = [{
@@ -54,6 +55,10 @@ const routes = [{
 	{
 		path: '/creator',
 		component: creator
+	},
+	{
+		path: '/chest',
+		component: chest
 	},
 	{
 		path: '/editor',

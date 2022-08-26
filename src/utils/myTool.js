@@ -31,6 +31,32 @@ export default {
             return Y + '年' + M + '月' + D + '日'
         }
     },
+    dateFormat(date) {
+        let time = new Date(date)
+
+        let s = time.getTime()
+        let h = time.getHours()
+        let m = time.getMinutes()
+
+        let Y = time.getFullYear()
+        let M = time.getMonth() + 1
+        let D = time.getDate()
+
+        let timeFix = function (m, h, s) {
+            if (m < 10) {
+                m = '0' + m
+            }
+            if (h < 10) {
+                h = '0' + h
+            }
+            if (s < 10) {
+                s = '0' + s
+            }
+        }
+        timeFix(m, h, s)
+
+        return Y + '年' + M + '月' + D + '日' + ' ' + h + ':' + m
+    },
     setNum(number) {
         if (number < 10000) {
             return number

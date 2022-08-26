@@ -15,7 +15,7 @@
                                     {{ article.username }}
                                 </div>
                                 <div class="article-time-view">
-                                    2022年08月24日 21:36 · 阅读 {{ article.viewcount }}
+                                    {{ dateFormat(article.posttime) }} · 阅读 {{ article.viewcount }}
                                 </div>
                             </div>
                             <div class="follow-author" @click="followAuthor">+ 关注</div>
@@ -30,7 +30,9 @@
                 <!-- 占位分隔 -->
                 <div style="width: 20px;height:1px;;" v-if="!sidebaron"> </div>
                 <!-- sidebar -->
-                <div class="sidebar" v-if="!sidebaron"> </div>
+                <div class="sidebar" v-if="!sidebaron">
+                    <Sidebar style="width:100%"></Sidebar>
+                </div>
                 <!-- panel -->
                 <div class="article-panel">
                     <div v-show="isimmerse" class="like"><img src="../../assets/icon/like-o.png" @click="likeArticle" />
@@ -59,6 +61,8 @@
 <script>
 import { getarticlebypostidAPI } from "../../api/getarticlebypostidAPI"
 import myTool from '../../utils/myTool'
+import Sidebar from '../../components/sideBar'
+
 
 
 export default {
@@ -71,6 +75,9 @@ export default {
             isimmerse: true
         }
     },
+    components: {
+        Sidebar
+    },
     methods: {
         // 解析数字和时间
         setNum(number) {
@@ -78,6 +85,9 @@ export default {
         },
         setDate(date) {
             return myTool.setDate(date)
+        },
+        dateFormat(date) {
+            return myTool.dateFormat(date)
         },
         likeArticle() {
             console.log("点赞");
@@ -224,7 +234,6 @@ export default {
 
             .sidebar {
                 width: 300px;
-                background-color: rgb(132, 99, 99);
             }
 
             .article-panel {

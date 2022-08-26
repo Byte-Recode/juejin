@@ -36,7 +36,9 @@
 				</div>
 			</section>
 			<div style="width: 20px;height:1px;" v-if="!sidebaron"></div>
-			<div class="sidebar" v-if="!sidebaron"></div>
+			<div class="sidebar" v-if="!sidebaron">
+				<Sidebar></sidebar>
+			</div>
 		</div>
 	</div>
 </template>
@@ -46,6 +48,7 @@ import List from '../../components/List.vue'
 import SkeletonVue from '../../components/Skeleton.vue';
 import { getarticleAPI } from '../../api/getarticleAPI'
 import { getarticletagAPI } from '../../api/getarticletagAPI'
+import Sidebar from '../../components/sideBar'
 
 export default {
 	data() {
@@ -67,7 +70,8 @@ export default {
 	},
 	components: {
 		List,
-		SkeletonVue
+		SkeletonVue,
+		Sidebar
 	},
 	methods: {
 		setKeyword() {
@@ -338,8 +342,7 @@ export default {
 
 		.sidebar {
 			width: 240px;
-			height: 900px;
-			background-color: blue;
+			// height: 900px;
 		}
 	}
 

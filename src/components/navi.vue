@@ -57,12 +57,13 @@
                             <router-link to="/event">活动</router-link>
                         </li>
                         <ul class="others">
-                            <li><a href="javascript:;">商城</a></li>
+                            <li><a href="https://detail.youzan.com/show/goods/newest?kdt_id=104340304"
+                                    target="_blank">商城</a></li>
                             <li>
-                                <a href="javascript:;">APP</a>
+                                <a href="https://juejin.cn/app?utm_source=jj_nav" target="_blank">APP</a>
                             </li>
                             <li>
-                                <a href="javascript:;">插件</a>
+                                <a href="https://juejin.cn/extension?utm_source=jj_nav" target="_blank">插件</a>
                             </li>
                         </ul>
                     </ul>
@@ -107,6 +108,7 @@
 <script>
 import search from "./search"; //引入搜索框
 import scrollMenu from "./scrollMenu"; //引入下拉菜单
+
 export default {
     data() {
         return {
