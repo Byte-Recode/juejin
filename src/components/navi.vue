@@ -175,16 +175,18 @@ export default {
             let boxoffset = window.pageYOffset  //屏幕滚动像素
             // 当滚动偏移量大于500时hide navi
             if (boxoffset > 500) {
-                console.log(boxoffset)
+                // console.log(boxoffset)
                 this.navihide = 1
-                console.log(this.navihide);
+                // console.log(this.navihide);
             } else {
                 this.navihide = 0
             }
             if (boxoffset > 1000) {
                 this.toTop = 1
+                this.$bus.$emit('sidebarfixed', true)
             } else {
                 this.toTop = 0
+                this.$bus.$emit('sidebarfixed', false)
             }
         },
         goTop() {

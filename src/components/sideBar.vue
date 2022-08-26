@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="sidebar-container" :class="{ 'sidebar-fixed': isfixed }" :style="{ width: width + 'px' }">
         <ul>
             <li class="first">
                 <div class="top">
@@ -41,96 +41,114 @@
 
 <script>
 export default {
-    name: "Sidebar"
+    name: "Sidebar",
+    props: {
+        width: {
+            type: Number,
+            default: 240
+        },
+        isfixed: {
+            type: Boolean,
+            default: false
+        }
+    }
 };
 </script>
 
 <style lang='less' scoped>
-ul {
-    width: 100%;
+.sidebar-fixed {
+    top: 30px;
+    position: fixed;
+}
 
-    .first {
-        padding: 16px;
-        background-color: #fff;
-        box-sizing: border-box;
+#sidebar-container {
+
+    ul {
         width: 100%;
-        height: 96px;
-        margin-bottom: 16px;
-        background: white;
 
-        .top {
-            margin: 0 auto;
-            height: 32px;
-            width: 208px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .first {
+            padding: 16px;
+            background-color: #fff;
+            box-sizing: border-box;
+            width: 100%;
+            height: 96px;
+            margin-bottom: 16px;
+            background: white;
 
-            .left {
+            .top {
+                margin: 0 auto;
+                height: 32px;
+                width: 208px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                font-size: 20px;
+
+                .left {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 20px;
+
+                    span {
+                        margin-left: 15px;
+                    }
+                }
+            }
+
+            .bottom {
+                font-size: 16px;
+                text-align: center;
+                margin-top: 10px;
 
                 span {
-                    margin-left: 15px;
+                    color: rgb(47, 151, 230);
                 }
             }
         }
 
-        .bottom {
-            font-size: 16px;
-            text-align: center;
-            margin-top: 10px;
-
-            span {
-                color: rgb(47, 151, 230);
-            }
-        }
-    }
-
-    >div {
-        background-color: #fff;
-        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
-        border-radius: 2px;
-        margin-bottom: 1.3rem;
-        width: 100%;
-        aspect-ratio: 1.2;
-        color: #333;
-
-        img {
+        >div {
+            background-color: #fff;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
             border-radius: 2px;
+            margin-bottom: 1.3rem;
             width: 100%;
-            height: 100%;
-        }
-    }
-
-    .arCode {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-        background: white;
-
-        .left {
-            width: 50px;
-            height: 50px;
+            aspect-ratio: 1.2;
+            color: #333;
 
             img {
+                border-radius: 2px;
                 width: 100%;
                 height: 100%;
             }
         }
 
-        .right {
-            margin-left: 10px;
-            font-size: 10px;
+        .arCode {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: white;
 
-            p {
-                &:first-child {
-                    font-size: 14px;
-                    font-weight: 500;
-                    margin-bottom: 10px;
+            .left {
+                width: 50px;
+                height: 50px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            .right {
+                margin-left: 10px;
+                font-size: 10px;
+
+                p {
+                    &:first-child {
+                        font-size: 14px;
+                        font-weight: 500;
+                        margin-bottom: 10px;
+                    }
                 }
             }
         }

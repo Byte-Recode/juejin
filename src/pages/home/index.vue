@@ -37,7 +37,7 @@
 			</section>
 			<div style="width: 20px;height:1px;" v-if="!sidebaron"></div>
 			<div class="sidebar" v-if="!sidebaron">
-				<Sidebar></sidebar>
+				<Sidebar :width="240" :isfixed="sidebarfixed"></sidebar>
 			</div>
 		</div>
 	</div>
@@ -54,6 +54,7 @@ export default {
 	data() {
 		return {
 			sidebaron: false,
+			sidebarfixed: false,
 			tagselect: "综合",
 			tagKeywords: [],
 			keywordselect: "",
@@ -236,6 +237,9 @@ export default {
 		}
 	},
 	created() {
+		this.$bus.$on('sidebarfixed', val => {
+			this.sidebarfixed = val
+		})
 		this.toggleTopBar()
 		window.addEventListener('resize', this.debounce(this.toggleTopBar, 500))
 		window.addEventListener('scroll', this.windowScroll)

@@ -31,7 +31,7 @@
                 <div style="width: 20px;height:1px;;" v-if="!sidebaron"> </div>
                 <!-- sidebar -->
                 <div class="sidebar" v-if="!sidebaron">
-                    <Sidebar style="width:100%"></Sidebar>
+                    <Sidebar :width="300" :isfixed="sidebarfixed"></Sidebar>
                 </div>
                 <!-- panel -->
                 <div class="article-panel">
@@ -72,7 +72,8 @@ export default {
             postid: this.$route.query["postid"],
             article: {},
             sidebaron: false,
-            isimmerse: true
+            isimmerse: true,
+            sidebarfixed: false,
         }
     },
     components: {
@@ -136,6 +137,9 @@ export default {
     },
     created() {
         this.getarticlebypostid()
+        this.$bus.$on('sidebarfixed', val => {
+            this.sidebarfixed = val
+        })
     }
 }
 
