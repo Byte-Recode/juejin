@@ -6,19 +6,19 @@
                 <div class="article">
                     <div class="article-header">
                         <div class="title">
-                            朋友，进来刷点 try-catch 看看你能全对吗（答应我，请务必看到最后
+                            {{ article.title }}
                         </div>
                         <div class="author">
-                            <div class="profile"><img src="../../assets/touxiang.png" alt=""></div>
+                            <div class="profile"><img :src="article.profile" alt=""></div>
                             <div class="author-mian">
                                 <div class="author-name">
-                                    朋友，进来刷点
+                                    {{ article.username }}
                                 </div>
                                 <div class="article-time-view">
-                                    2022年08月24日 21:36 · 阅读 1145
+                                    2022年08月24日 21:36 · 阅读 {{ article.viewcount }}
                                 </div>
                             </div>
-                            <div class="follow-author">+ 关注</div>
+                            <div class="follow-author" @click="followAuthor">+ 关注</div>
                         </div>
                     </div>
                     <!-- 占位分隔 -->
@@ -33,9 +33,15 @@
                 <div class="sidebar" v-if="!sidebaron"> </div>
                 <!-- panel -->
                 <div class="article-panel">
-                    <div v-show="isimmerse" class="like"><img src="../../assets/icon/like-o.png" /></div>
-                    <div v-show="isimmerse" class="comment"><img src="../../assets/icon/comment-o.png" /></div>
-                    <div v-show="isimmerse" class="collection"><img src="../../assets/icon/collection.png" /></div>
+                    <div v-show="isimmerse" class="like"><img src="../../assets/icon/like-o.png" @click="likeArticle" />
+                        <div class="tip" v-if="article.followcount != 0">{{ setNum(article.followcount) }}</div>
+                    </div>
+                    <div v-show="isimmerse" class="comment"><img src="../../assets/icon/comment-o.png"
+                            @click="commentArticle" />
+                        <div class="tip" v-if="article.replycount != 0">{{ setNum(article.replycount) }}</div>
+                    </div>
+                    <div v-show="isimmerse" class="collection"><img src="../../assets/icon/collection.png"
+                            @click="collectArticle" /></div>
                     <div v-show="isimmerse" class="share"><img src="../../assets/icon/share.png" /></div>
                     <span v-show="isimmerse"></span>
                     <div v-show="isimmerse" class="warning"><img src="../../assets/icon/warning.png" /></div>
@@ -52,8 +58,7 @@
 
 <script>
 import { getarticlebypostidAPI } from "../../api/getarticlebypostidAPI"
-import hljs from 'highlight.js'
-import 'highlight.js/styles/monokai-sublime.css'
+import myTool from '../../utils/myTool'
 
 
 export default {
@@ -67,6 +72,41 @@ export default {
         }
     },
     methods: {
+        // 解析数字和时间
+        setNum(number) {
+            return myTool.setNum(number)
+        },
+        setDate(date) {
+            return myTool.setDate(date)
+        },
+        likeArticle() {
+            console.log("点赞");
+            this.$message({
+                message: `给postid=${this.postid}点赞,暂未开放此功能`,
+                duration: 500
+            });
+        },
+        followAuthor() {
+            console.log("关注");
+            this.$message({
+                message: `关注了${this.article.username},id=${this.article.userid},暂未开放此功能`,
+                duration: 500
+            });
+        },
+        commentArticle() {
+            console.log("评论文章");
+            this.$message({
+                message: `评论postid=${this.postid},暂未开放此功能`,
+                duration: 500
+            });
+        },
+        collectArticle() {
+            console.log("收藏文章");
+            this.$message({
+                message: `收藏postid=${this.postid},暂未开放此功能`,
+                duration: 500
+            });
+        },
         immerse() {
             if (this.isimmerse == false) {
                 this.isimmerse = true
@@ -93,7 +133,6 @@ export default {
 
 <style lang="less" scoped>
 #article-container {
-
     .main {
         margin: 10px auto 0;
         // background-color: antiquewhite;
@@ -169,6 +208,18 @@ export default {
                         }
                     }
                 }
+
+                .article-main {
+
+                    // 样式穿透，解决hljs代码块样式不生效的问题
+                    ::v-deep pre code {
+                        display: block;
+                        overflow-x: auto;
+                        padding: 1em;
+                        color: #fff;
+                        background: gray;
+                    }
+                }
             }
 
             .sidebar {
@@ -190,6 +241,7 @@ export default {
                 }
 
                 div {
+                    position: relative;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -200,6 +252,17 @@ export default {
                     background-color: #fff;
                     vertical-align: middle;
                     margin-bottom: 20px;
+
+                    .tip {
+                        position: absolute;
+                        left: calc(80%);
+                        top: 0;
+                        width: auto;
+                        height: 11px;
+                        color: #fff;
+                        background-color: #c2c8d1;
+                        padding: 2px 3px;
+                    }
 
                     img {
                         width: 20px;

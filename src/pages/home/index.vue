@@ -1,14 +1,16 @@
 <template>
 	<div id="homeindex-container">
-		<router-view @toggleTag="onToggleTag"></router-view><!-- 标签导航列表组件 -->
-		<!-- 标签列表 -->
-		<div class="taglist">
-			<ol v-if="tagselect !== '综合' && tagselect !== '关注'">
-				<li v-for="(item, index) in tagKeywords" :class="keywordselect == item ? 'keywordselect' : ''"
-					href="javascript:;" :data-tag="item" :key="index" :data-word=item @click.stop="toggleKeyword">{{
-							item
-					}}</li>
-			</ol>
+		<div class="navihide">
+			<router-view @toggleTag="onToggleTag" :hidenavi="hidenavi"></router-view><!-- 标签导航列表组件 -->
+			<!-- 标签列表 -->
+			<div class="taglist">
+				<ol v-if="tagselect !== '综合' && tagselect !== '关注'">
+					<li v-for="(item, index) in tagKeywords" :class="keywordselect == item ? 'keywordselect' : ''"
+						href="javascript:;" :data-tag="item" :key="index" :data-word=item @click.stop="toggleKeyword">{{
+								item
+						}}</li>
+				</ol>
+			</div>
 		</div>
 		<!-- 内容部分 -->
 		<div :class="{ content: true, 'content-react': sidebaron }">
@@ -63,6 +65,7 @@ export default {
 			num: 10,
 			istip: false,//提示：没有更多了
 			tag: [],
+			hidenavi: false
 		}
 	},
 	components: {
@@ -228,6 +231,14 @@ export default {
 						this.getarticletag()
 					}
 				}
+				// 当滚动盒子偏移量等于500时隐藏navi
+				if (boxoffset > 500) {
+					console.log(boxoffset);
+					this.hidenavi = true
+				} else {
+					this.hidenavi = false
+				}
+
 			} else return
 		}
 	},

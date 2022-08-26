@@ -2,7 +2,7 @@
     <div class="outer">
         <div class="container">
             <!-- 掘金图标开始-->
-            <div>
+            <div @click="goHome">
                 <a href="javascript:;">
                     <img v-show="windowWidth < 640"
                         src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/6c61ae65d1c41ae8221a670fa32d05aa.svg" />
@@ -109,11 +109,22 @@ export default {
             istopnavfold: false
         }
     },
+    props: {
+        hidenavi: false
+    },
     components: {
         search,
         scrollMenu,
     },
     methods: {
+        goHome() {
+            this.$router.push({
+                path: '/',
+                query: {
+
+                }
+            })
+        },
         toggleTopNavFold() {
             this.istopnavfold == true ? this.istopnavfold = false : this.istopnavfold = true
         },

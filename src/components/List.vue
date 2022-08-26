@@ -223,7 +223,7 @@ export default {
 			});
 		},
 		intoArticle() {
-			console.log("打开文章");
+			// console.log("打开文章");
 			this.$router.push({
 				path: '/article',
 				query: {

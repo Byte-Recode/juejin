@@ -34,8 +34,10 @@ export default {
     setNum(number) {
         if (number < 10000) {
             return number
-        } else {
+        } else if (number >= 10000) {
             return (number / 1000).toFixed(0) / 10 + "w"
+        } else {
+            return 0
         }
     }
 }
