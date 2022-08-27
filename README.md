@@ -1,41 +1,147 @@
-### 临时进度po
+### 仿稀土掘金官网-项目介绍
 
-![image](./public/8.22.jpg) 
-1.响应式基本完成
-2.无限滚动部分完成，利用nodejs操作mysql数据库，数据库正在想办法传到云端
-3.无限滚动部分点击事件完成大半
+![image](./public/juejindemo.jpg) 
+1.借鉴掘金官网样式与功能，实现的功能有：无限滚动的文章列表、首页响应式布局、文章代码高亮、文章发表功能、首页文章展示排序、首页文章按关键词展示、前后端交互...
+2.技术栈：js+less+Vue2+VueRouter+Elementjs+Node.js+mysql
+3.项目服务器地址：http://47.92.135.202:8080/
 
-### 稀土掘金官网
-1. 顶部导航
-2. 导航底部小标签
-3. 主体内容
+### 功能模块
+1. 顶部导航栏、响应式布局
+2. 首页文章无限滚动、文章排序、文章按分区展示
+3. 文章详情页、代码高亮、沉浸模式、文章发表（基于wangeditor）
+4. 沸点、创作者中心页面
+5. 后端node.js+express从mysql读取数据、查找数据、增加数据
 
-### Project setup
+### 项目初始化命令
 ```
-npm install
+npm install //安装依赖
+npm run serve //运行项目
+cd ../server //进入后端服务器目录
+node app.js //开启后端服务器
+//愉快的玩耍
 ```
 
-### 项目依赖搭建(以下是已安装的依赖)
-1. vue create juejin
-2. vue add element
-3. npm i axios -s
-4. npm i less@3.9.0 less-loader@5.0.0
-3. npm i vue-router@3
-5. npm i vuex@3
+### 项目架构
+![image](./public/frame.jpg) 
 
-### 项目初始化
-1. 删除无用组件
-2. css初始化 本地或线上(暂时使用本地文件)
-3. less文件夹中的clear.less是手写的快速创建BFC插件，如需使用，则在less样式区域使用@import '../......'进行引入后，在需要创建BFC的样式上调用clearfix()即可
+### 项目代码介绍
+代码量比较庞大，在这里挑选几个项目要点涉及到的代码进行展示：
+1.无限滚动
+```
+    <!-- 瀑布流 -->
+    <div :class="{ waterfall: true, 'waterfall-react': sidebaron }" ref="scrollBox">
+        <!-- 骨架屏组件 -->
+        <SkeletonVue :height="150" :class="{ 'Skeleton': !sidebaron, 'Skeleton-react': sidebaron }" v-if="isskeleton">
+        </SkeletonVue>
+        <!-- 文章概览组件List，对后端传来的文章列表articlearr进行for循环 -->
+        <List v-for="(item, index) in articlearr" :key="index" :postid="item.id" :authorname="item.username"
+            :title="item.title" :coverimg="item.photo"
+            :abstract="item.abstract == 'null' ? item.content : item.abstract" :date="item.posttime"
+            :keywords="item.keywords" :comment="item.replycount" :likecount="item.followcount"
+            :viewcount="item.viewcount">
+        </List>
+        <h3 v-if="istip" :class="{ 'Skeleton': !sidebaron, 'Skeleton-react': sidebaron }"
+            style="text-align: center; margin:20px 0">没有更多了</h3>
+    </div>
+```
+```
+<script>
+import List from '../../components/List.vue'
+import SkeletonVue from '../../components/Skeleton.vue';
+import { getarticleAPI } from '../../api/getarticleAPI'
 
-### 后台
-1. 基于node.js + Express
+export default {
+    data() {
+        return {
+            articlearr: [],//文章列表
+            isloading: false,//向后端请求文章
+            loadheight: 200,//加载余量阈值
+            index: 0,
+            num: 10,
+            isskeleton: true,
+            istip: false,//提示：没有更多了
+        }
+    },
+    components: {
+        List,
+        SkeletonVue,
+    },
+    methods: {
+        // 重置索引、列表等
+        reSet() {
+            this.index = 0
+            this.articlearr = []
+            this.isskeleton = true
+            this.istip = false
+        },
+        // 查询所有文章
+        async getArticle() {
+            // 首页列表排序匹配，order表示传给后方的排序依据,篇幅有限，在这里省略了排序switch代码
+            let order
+            // 。。。省略
+            order = 'recommend'
+            // 获取文章列表
+            const res = await getarticleAPI(this.index, this.num, order)
+            if (res.code !== 201) {
+                this.isskeleton = false
+                this.istip = true
+                return
+            }
+            // 后端传来的文章存入数组
+            this.articlearr = [...this.articlearr, ...res.data]
+            // sql查询索引增加
+            this.index = this.index + this.num
+            this.isloading = false
+            this.isskeleton = false
+        },
+        // 防抖函数
+        debounce(fn, delay) {
+            let timer;
+            return function () {
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(() => {
+                    fn();
+                }, delay);
+            }
+        },
+        // 监听屏幕滚动
+        windowScroll() {
+            if (!this.isloading) {
+                let boxHeight = this.$refs.scrollBox.offsetHeight
+                let scrollboxheight = boxHeight + 56 + 42  //盒子高度（包括navi）
+                let boxoffset = window.pageYOffset  //屏幕滚动像素
+                let deviceheight = window.screen.height  //设备高度
+                // 当滚动盒子偏移量小于屏幕滚动像素+设备高度+200余量时获取新文章
+                if (scrollboxheight < boxoffset + deviceheight + this.loadheight) {
+                    // 设置节流阀isloading
+                    this.isloading = true
+                    this.getArticle()
+                } else{
+                    return
+                }
+            } else return
+        }
+    },
+    created() {
+        window.addEventListener('resize', this.debounce(this.toggleTopBar, 500))//响应式相关代码
+        window.addEventListener('scroll', this.windowScroll)
+        this.getArticle()
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.debounce(this.toggleTopBar, 500));//响应式相关代码
+        window.removeEventListener('scroll', this.windowScroll)
+    }
+};
+</script>
+```
+2.利用window.addEventListener('resize', this.debounce(this.toggleTopBar, 500))实现响应式布局。详情移步src/pages/home/index.vue  p206 and so on。
+3.引入富编辑器，转存正文html实现代码高亮。详情移步src/pages/creator/editor.vue，src/pages/article/article.vue。
+4.后端node.js实现数据库的增、查...详情移步server/controller/post.js，server。
+5.其他代码介绍详见github仓库-https://github.com/gogojonnyS/juejin2.0。
 
-### element-ui
-目前知识按需引入了部分element-ui组件
-1. 导航区的搜索框、创作者中心、消息提醒按钮
-
-### 组件结构分析
+### 组件结构
 src---
 - assets中存放着静态资源，如css、less和图片
 - compons中存放一般组件
@@ -91,5 +197,6 @@ app---
 	- 640 ~ 660，标签导航路由出现横向滑块；
 	- 345 ~ 640，隐藏稀土掘金logo并减小搜索框宽度；
 	- <345时，隐藏搜索框
-3.由于能力不够，vue中使用媒体查询的方法还没整明白，会的小伙伴欢迎在群内讨论
+### 项目在线地址：
+http://47.92.135.202:8080/
 
