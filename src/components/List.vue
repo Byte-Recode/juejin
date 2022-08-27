@@ -1,6 +1,6 @@
 <template>
 	<div id="list-container">
-		<router-link to="#">
+		<div>
 			<div class="entry">
 				<!-- 头部区域 -->
 				<div class="meta-container">
@@ -22,10 +22,10 @@
 				<div class="content">
 					<div class="content-main" @click="intoArticle">
 						<div class="content-title">
-							<a href="">{{ title }}</a>
+							<a>{{ title }}</a>
 						</div>
 						<div class="abstract">
-							<a href="">{{ abstract.slice(0, 60) }}</a>
+							<a>{{ abstract.slice(0, 60) }}</a>
 						</div>
 						<ul class="action-list">
 							<li class="item view" @click.stop="intoArticle">
@@ -89,7 +89,7 @@
 					</div>
 				</div>
 			</div>
-		</router-link>
+		</div>
 	</div>
 </template>
 
