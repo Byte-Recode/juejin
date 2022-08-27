@@ -243,7 +243,7 @@ export default {
             .article-panel {
                 position: fixed;
                 top: 140px;
-                left: 80px;
+                left: 20px;
 
                 span {
                     display: block;
