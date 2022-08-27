@@ -142,6 +142,7 @@ export default {
 5.其他代码介绍详见github仓库-https://github.com/gogojonnyS/juejin2.0。  
 
 ### 组件结构
+```
 src---  
 - assets中存放着静态资源，如css、less和图片  
 - compons中存放一般组件  
@@ -184,6 +185,7 @@ app---组件中展示的是layout视图组件，layout通过路由引入
 		导航内容区视图组件---  
 	layout---  
 app---  
+```
 
 ### 页面布局
 1.layout是整个主页面的视图容器，其他页面还有个人中心，vip，创作者中心，消息提醒等页面，暂时未布置视图容器  
