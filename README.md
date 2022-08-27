@@ -150,7 +150,7 @@ src---
 - router存放路由规则文件  
 src---  
 
-app---组件中展示的是layout视图组件，layout通过路由引入  
+app---组件中展示的是layout视图组件，layout通过路由引入   
 	layout---路由组件(router-view)，展示的是navi组件以及导航内容区视图组件  
 		navi---这么奇怪的命名是因为本来想用nav，但nav是关键字(分为两大块，一块是最左侧的掘金logo，一块是由首页开始一直到最右侧的头像部分，即是导航部分)  
 			- 掘金logo  
